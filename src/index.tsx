@@ -1,31 +1,29 @@
 import * as React from "react";
 import { RefookHooks, RefookConfiguratorProps, RefookRefs } from "./types";
 
-export default (hooks: RefookHooks) => {
-  const refs: RefookRefs = {};
-  const names = Object.keys(hooks);
+const refs: RefookRefs = {};
 
-  const InnerConfigurator = (props: RefookConfiguratorProps) => {
-    props.setHookRef(props.hookName, hooks[props.hookName]());
-    return null;
-  };
+export default ({ hooks }: { hooks: RefookHooks }) => {
+    const names = Object.keys(hooks);
 
-  const setHookRef = (hookName: string, hookRef: () => void) => {
-    refs[hookName] = hookRef;
-  };
+    const InnerConfigurator = (props: RefookConfiguratorProps) => {
+        props.setHookRef(props.hookName, hooks[props.hookName]());
+        return null;
+    };
 
-  return {
-    use: (name: string) => {
-      return refs[name];
-    },
-    RefookConfigurator: () => {
-      return (
+    const setHookRef = (hookName: string, hookRef: () => void) => {
+        refs[hookName] = hookRef;
+    };
+
+    return (
         <>
-          {names.map((name, index) => (
-            <InnerConfigurator key={index} hookName={name} setHookRef={setHookRef} />
-          ))}
+            {names.map((name, index) => (
+                <InnerConfigurator key={index} hookName={name} setHookRef={setHookRef} />
+            ))}
         </>
-      );
-    },
-  };
+    );
 };
+
+export const use = () => {
+    return refs[name];
+}
