@@ -24,6 +24,10 @@ export default ({ hooks }: { hooks: RefookHooks }) => {
   );
 };
 
-export const use = () => {
+export const use = (name: string) => {
+  if(!refs[name]) {
+    throw new Error("Hook is not defined");
+  }
+
   return refs[name];
 };

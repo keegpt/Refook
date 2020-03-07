@@ -11,36 +11,25 @@ npm install @keegpt/refook
 ## Usage
 
 ```jsx
-// create a file like: loadHooks.js
-
-import Refook from '@keegpt/refook';
-
-import { useSnackbar } from "notistack"; // for toast notifications
-import { useI18Zen } from 'react-i18zen'; // for text translations
-
-// you can customize hooks's name
-export const { RefookConfigurator , use } = Refook({ translation: useI18Zen, toast: useSnackbar });
-```
-```jsx
 // your index file
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SnackbarProvider } from 'notistack';
-import { I18ZenProvider } from 'react-i18zen';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import { I18ZenProvider, useI18Zen } from 'react-i18zen';
 
 import en from './locales/en.json';
 import pt from './locales/pt.json';
 
-import { RefookConfigurator } from './loadHooks';
+import Refook from '@keegpt/refook';
 
 function Init() {
     return (
         <>
             <I18ZenProvider locales={{ pt, en }} defaultLocale="pt">
                 <SnackbarProvider maxSnack={4} anchorOrigin={{ vertical: 'top', horizontal: 'right', }}>
-                    <RefookConfigurator />
+                    <Refook hooks={{ toast: useSnackbar, translation: useI18Zen }} />
                     <div>Hello, world!</div>
                 </SnackbarProvider>
             </I18ZenProvider>
@@ -53,7 +42,7 @@ ReactDOM.render(<Init />, document.getElementById('root'));
 ```jsx
 // anywhere in the project
 
-import { use } from './loadHooks';
+import { use } from '@keegpt/refook';
 
 export default () => {
     const translatedMessage = use('translation').__('common.success');
