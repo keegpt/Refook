@@ -1,6 +1,6 @@
 {
   "name": "@keegpt/refook",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Use hooks outside react components!",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
