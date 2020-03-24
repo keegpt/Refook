@@ -42,11 +42,37 @@ ReactDOM.render(<Init />, document.getElementById('root'));
 ```jsx
 // anywhere in the project
 
-import { use } from '@keegpt/refook';
+import { useRefook } from '@keegpt/refook';
 
 export default () => {
-    const translatedMessage = use('translation').__('common.success');
-    use('toast').enqueueSnackbar(translatedMessage, { variant: "success" });
+    const translatedMessage = useRefook('translation').__('common.success');
+    useRefook('toast').enqueueSnackbar(translatedMessage, { variant: "success" });
+}
+
+```
+
+### Customize your hook
+
+```jsx
+
+import { useRefook } from '@keegpt/refook';
+
+export default {
+    success(msg, options = {}) {
+        this.default(msg, { ...options, variant: 'success' })
+    },
+    warning(msg, options = {}) {
+        this.default(msg, { ...options, variant: 'warning' })
+    },
+    info(msg, options = {}) {
+        this.default(msg, { ...options, variant: 'info' })
+    },
+    error(msg, options = {}) {
+        this.default(msg, { ...options, variant: 'error' })
+    },
+    default(msg, options = {}) {
+        useRefook('toast').enqueueSnackbar(msg, options)
+    }
 }
 
 ```
